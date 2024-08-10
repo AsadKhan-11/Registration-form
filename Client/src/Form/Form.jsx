@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./Form.css";
 
 function Form() {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
-  const [age, setAge] = useState();
+  const [password, setPassword] = useState();
 
   const Submit = (e) => {
     e.preventDefault();
+    axios
+      .post("http://localhost:8000/users", { name, email, password })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
   return (
     <form className="createUser" onSubmit={Submit}>
       <h1>Add New User</h1>
@@ -32,14 +40,12 @@ function Form() {
         />
       </div>
       <div className="user-info">
-        <label htmlFor="">Age</label>
+        <label htmlFor="">Password</label>
         <input
-          type="number"
-          min="0"
-          max="100"
-          placeholder="Enter your age"
+          type="password"
+          placeholder="Enter password"
           required
-          onChange={(e) => setAge(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
       <button type="submit">Add User</button>
